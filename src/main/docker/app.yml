@@ -1,0 +1,28 @@
+version: '2'
+services:
+    mymicroserviceapp-app:
+        image: mymicroserviceapp
+        external_links:
+            - mymicroserviceapp-postgresql:postgresql
+            - mymicroserviceapp-elasticsearch:elasticsearch
+            - jhipster-registry:registry
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - SPRING_CLOUD_CONFIG_URI=http://admin:admin@registry:8761/config
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/mymicroserviceapp
+            - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+            - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=elasticsearch:9300
+    mymicroserviceapp-postgresql:
+        extends:
+            file: postgresql.yml
+            service: mymicroserviceapp-postgresql
+    mymicroserviceapp-elasticsearch:
+        extends:
+            file: elasticsearch.yml
+            service: mymicroserviceapp-elasticsearch
+    jhipster-registry:
+        extends:
+            file: jhipster-registry.yml
+            service: jhipster-registry
+        environment:
+            - SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCH_LOCATIONS=file:./central-config/docker-config/

@@ -1,0 +1,12 @@
+version: '2'
+services:
+    mymicroserviceapp-postgresql:
+        container_name: mymicroserviceapp-postgresql
+        image: postgres:9.5.4
+        # volumes:
+        #     - ~/volumes/jhipster/mymicroserviceapp/postgresql/:/var/lib/postgresql/
+        environment:
+            - POSTGRES_USER=mymicroserviceapp
+            - POSTGRES_PASSWORD=
+        ports:
+            - 5432:5432
